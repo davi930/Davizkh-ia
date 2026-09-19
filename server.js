@@ -45,7 +45,7 @@ Formato da resposta: apenas o código, nada mais.`
           content: pedido
         }
       ],
-      model: "llama-3.1-8b-instant",
+      model: "llama3-8b-8192",
       temperature: 0.7,
       max_tokens: 2500
     });
