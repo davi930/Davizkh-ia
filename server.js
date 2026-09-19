@@ -45,7 +45,7 @@ Formato da resposta: apenas o código, nada mais.`
           content: pedido
         }
       ],
-      model: "llama3-8b-8192",
+      model: "openai/gpt-oss-20b",
       temperature: 0.7,
       max_tokens: 2500
     });
