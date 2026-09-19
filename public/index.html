@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Davizhk AI - Gerador de Scripts</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+  body {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: #fff; min-height: 100vh; padding: 20px;
+  }
+  .container { max-width: 800px; margin: 0 auto; }
+  h1 {
+    text-align: center; font-size: 28px; margin-bottom: 5px;
+    background: linear-gradient(90deg, #a855f7, #6366f1);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .sub { text-align: center; color: #888; margin-bottom: 25px; font-size: 14px; }
+  .card {
+    background: #1e1e2e; border-radius: 12px; padding: 20px;
+    margin-bottom: 15px; border: 1px solid #2a2a3e;
+  }
+  label { display: block; margin-bottom: 8px; color: #aaa; font-size: 13px; }
+  input, textarea {
+    width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #2a2a3e;
+    background: #15151f; color: #fff; font-size: 14px; outline: none;
+  }
+  input:focus, textarea:focus { border-color: #a855f7; }
+  textarea { resize: vertical; min-height: 100px; font-family: monospace; }
+  button {
+    width: 100%; padding: 14px; border-radius: 8px; border: none;
+    background: linear-gradient(90deg, #a855f7, #6366f1);
+    color: #fff; font-size: 16px; font-weight: bold; cursor: pointer;
+    margin-top: 10px;
+  }
+  button:active { opacity: 0.8; }
+  #resultado {
+    margin-top: 15px; padding: 15px; background: #15151f;
+    border-radius: 8px; color: #a855f7; font-family: monospace;
+    font-size: 13px; white-space: pre-wrap; word-break: break-all;
+    border: 1px solid #2a2a3e; min-height: 50px;
+  }
+  .erro { color: #ff5555 !important; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🤖 Davizhk AI</h1>
+  <p class="sub">Gerador de Scripts Roblox</p>
+
+  <div class="card">
+    <label>🔐 Senha de Acesso</label>
+    <input type="password" id="senha" placeholder="Digite a senha...">
+  </div>
+
+  <div class="card">
+    <label>📝 O que você quer?</label>
+    <textarea id="pedido" placeholder="Ex: script de fly infinito..."></textarea>
+    <button onclick="gerar()">Gerar Script 🚀</button>
+  </div>
+
+  <pre id="resultado">O script vai aparecer aqui...</pre>
+</div>
+
+<script>
+  async function gerar() {
+    const senha = document.getElementById("senha").value;
+    const pedido = document.getElementById("pedido").value;
+    const resultado = document.getElementById("resultado");
+    resultado.textContent = "Gerando...";
+    resultado.classList.remove("erro");
+
+    try {
+      const res = await fetch("/gerar-script", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ pedido, senha })
+      });
+      const data = await res.json();
+      if (data.erro) {
+        resultado.textContent = "❌ " + data.erro;
+        resultado.classList.add("erro");
+      } else {
+        resultado.textContent = data.script;
+      }
+    } catch (e) {
+      resultado.textContent = "❌ Erro de conexão";
+      resultado.classList.add("erro");
+    }
+  }
+</script>
+</body>
+</html>
