@@ -1,16 +1,14 @@
 const express = require("express");
 const Groq = require("groq-sdk");
 const path = require("path");
-require("dotenv").config();
 
 const app = express();
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-// A chave da API vai ser configurada no Vercel depois
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
-// 🔐 MUDA AQUI PRA SUA SENHA DE ACESSO
+// 🔐 MUDA AQUI PRA SUA SENHA
 const SENHA_ACESSO = "davizhk2024";
 
 app.post("/gerar-script", async (req, res) => {
@@ -59,5 +57,5 @@ Formato da resposta: apenas o código, nada mais.`
   }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🚀 Davizhk AI rodando na porta ${PORT}`));
+// ESSENCIAL PRO VERCEL: exporta o app em vez de app.listen
+module.exports = app;
